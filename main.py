@@ -1,59 +1,40 @@
-import random      # ПЕРВОЕ ЗАДАНИЕ
-########################################################################################
-spisok = [random.randint(-10,50) for _ in range(10)]
+import re
+file_name = "example.txt"
+file_name2 = "example2.txt"
+text_task3 = "TEXT.txt"
 
-num3x = (spisok[3]) * (spisok[6]) * (spisok[9])
-numMINMAX = spisok[1:9]                            #---- рабочая переменная, не для вывода!!!
-n1, n2, n3, n4, n5, n6, n7, n8 = numMINMAX         #---- рабочая переменная, не для вывода!!!
-numminmax = n1 * n2 * n3 * n4 * n5 * n6 * n7 * n8  # --- декомпозиция через 2 переменных
+with open(file_name, "w", encoding="utf8") as file:
+    file.write(input("Введитe какой-то текст, и чтобы пару слов было длиннее 7-ми смиволов: "))
 
-negative = 0
-for n in spisok:
-    if n < 0:
-        negative = negative + n
+with open(file_name, "r", encoding="utf8") as file:
+    the_text = file.read()
+    print(f"количевство слов в файле: ", len(re.findall(r"[A-Za-z]+", the_text)))
 
-para = 0
-nepara = 0
-for Zpara in spisok:
-    if Zpara % 2 == 0:
-        para = Zpara + para
+#####################################################################################
+#####################################################################################
 
-for Znepara in spisok:
-    if Znepara % 2 != 0:
-        nepara = Znepara + nepara
+with open(file_name2, "w") as file:
+    moded_text = re.findall(r"\b\w{7,}\b", the_text)
+    for word7 in moded_text:
+        file.write(word7 + ", ")
 
-############################################################################################ ВТОРОЕ ЗАДАНИЕ
-spisokPLUS = []
-spisokPARA = []
-spisokNEPARA = []
-spisokMINUS = []
+with open(file_name2, "r") as file:
+    new_text_in_file = file.read()
+    print(f"вот слова которые длиннее 7-ми символов:", new_text_in_file)
+    print(f"вот количивство слов длинее 7-ми символов:", len(moded_text))
 
-for cc in spisok:
-    if cc < 0:
-        spisokMINUS.append(cc)
 
-for dd in spisok:
-    if dd > 0:
-        spisokPLUS.append(dd)
+#########################################################################
+#########################################################################
+with open(text_task3, "w") as file:
+    file.write(input("введите какой-то текст где будут слова die:"))
 
-for PaRa in spisok:
-    if PaRa % 2 == 0:
-        spisokPARA.append(PaRa)
+with open(text_task3, "r") as file:
+    main_text = file.read()
+    print(f"кол-во слов die в тексте:", len(re.findall(r"\bdie\b", main_text)))
 
-for NePaRa in spisok:
-    if NePaRa % 2 != 0:
-        spisokNEPARA.append(NePaRa)
-
-##### СНИЗУ БУДЕТ ВЫВОД СРАЗУ ДЛЯ ПЕРВОГО И ВТОРОГО ЗАДАНИЯ
-print(f"сумма негативных чисел из (первого)материнского списка: {negative}")
-print(f"сумма парных чисел из (первого) материского списка: {para}")
-print(f"сумма непарных чисел из (первого) материского списка: {nepara}")
-print(f"произвидение чисел кратным 3 из (первого) материнского списка: {num3x}")
-print(f"произвидение чисел между минимальным и макс. числом из первого списка: {numminmax}")
-print(f"парные числа из первого списка в новом списке: {spisokPARA}")
-print(f"непарные числа из первого списка в новом списке: {spisokNEPARA}")
-print(f"негативные числа из первого списка в новом списке: {spisokMINUS}")
-print(f"позитивные числа из первого списка в новом списке: {spisokPLUS}")
-print(f"изначальный первый список ЧИСЕЛ: {spisok}")
-
+with open(text_task3, "w") as file:
+    newtext = re.sub(r"\bdie\b", "***", main_text)
+    file.write(newtext)
+    print(f"вот новый текст:", newtext) 
 
