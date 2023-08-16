@@ -1,40 +1,100 @@
-import re
-file_name = "example.txt"
-file_name2 = "example2.txt"
-text_task3 = "TEXT.txt"
+class Person:
+    def __init__(self, first_name, last_name, age, gender):
+        self.first_name = first_name
+        self.last_name = last_name
+        self.age = age
+        self.gender = gender
 
-with open(file_name, "w", encoding="utf8") as file:
-    file.write(input("Введитe какой-то текст, и чтобы пару слов было длиннее 7-ми смиволов: "))
-
-with open(file_name, "r", encoding="utf8") as file:
-    the_text = file.read()
-    print(f"количевство слов в файле: ", len(re.findall(r"[A-Za-z]+", the_text)))
-
-#####################################################################################
-#####################################################################################
-
-with open(file_name2, "w") as file:
-    moded_text = re.findall(r"\b\w{7,}\b", the_text)
-    for word7 in moded_text:
-        file.write(word7 + ", ")
-
-with open(file_name2, "r") as file:
-    new_text_in_file = file.read()
-    print(f"вот слова которые длиннее 7-ми символов:", new_text_in_file)
-    print(f"вот количивство слов длинее 7-ми символов:", len(moded_text))
+    def display_info(self):
+        print(f"Имя: {self.first_name} {self.last_name}, Возраст: {self.age}, Пол: {self.gender}")
 
 
-#########################################################################
-#########################################################################
-with open(text_task3, "w") as file:
-    file.write(input("введите какой-то текст где будут слова die:"))
+class Teacher(Person):
+    def __init__(self, first_name, last_name, age, gender):
+        super().__init__(first_name, last_name, age, gender)
+        self.subject = ""
 
-with open(text_task3, "r") as file:
-    main_text = file.read()
-    print(f"кол-во слов die в тексте:", len(re.findall(r"\bdie\b", main_text)))
+    def display_info(self):
+        super().display_info()
+        print(f"Преподаваемый предмет: {self.subject}")
 
-with open(text_task3, "w") as file:
-    newtext = re.sub(r"\bdie\b", "***", main_text)
-    file.write(newtext)
-    print(f"вот новый текст:", newtext) 
+
+class Student(Person):
+    def __init__(self, first_name, last_name, age, gender):
+        super().__init__(first_name, last_name, age, gender)
+        self.level = ""
+
+    def display_info(self):
+        super().display_info()
+        print(f"Успеваймость: {self.level}")
+
+
+class Academy:
+    def __init__(self):
+        self.teachers = []
+        self.students = []
+
+    def add_teacher(self, teacher):
+        self.teachers.append(teacher)
+
+    def add_student(self, student):
+        self.students.append(student)
+
+    def display_teachers(self):
+        print("Преподаватели:")
+        for teacher in self.teachers:
+            teacher.display_info()
+
+    def display_students(self):
+        print("Студенты:")
+        for student in self.students:
+            student.display_info()
+
+
+academy = Academy()
+
+while True:
+    print("1. Добавить преподавателя")
+    print("2. Добавить студента")
+    print("3. Показать преподавателей")
+    print("4. Показать студентов")
+    print("5. Выход")
+
+    choice = input("Выберите опцию: ")
+
+    if choice == "1":
+        first_name = input("Введите имя преподавателя: ")
+        last_name = input("Введите фамилию преподавателя: ")
+        age = int(input("Введите возраст преподавателя: "))
+        gender = input("Введите пол преподавателя: ")
+        subject = input("Введите преподаваемый предмет: ")
+        teacher = Teacher(first_name, last_name, age, gender)
+        teacher.subject = subject
+        academy.add_teacher(teacher)
+        print("Преподаватель добавлен")
+
+    elif choice == "2":
+        first_name = input("Введите имя студента: ")
+        last_name = input("Введите фамилию студента: ")
+        age = int(input("Введите возраст студента: "))
+        gender = input("Введите пол студента: ")
+        level = input("Введите уровень студента: ")
+        student = Student(first_name, last_name, age, gender)
+        student.level = level
+        academy.add_student(student)
+        print("Студент добавлен.")
+
+    elif choice == "3":
+        academy.display_teachers()
+
+    elif choice == "4":
+        academy.display_students()
+
+    elif choice == "5":
+        print("Выход")
+        break
+
+    else:
+        print("Неправильный выбор")
+
 
